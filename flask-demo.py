@@ -1,11 +1,7 @@
 from flask import Flask
+from app import create_app
 
-app = Flask(__name__)
-
-
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+app = create_app({'MONGODB_URL': 'mongodb://localhost:27017/'})
 
 
 if __name__ == '__main__':
