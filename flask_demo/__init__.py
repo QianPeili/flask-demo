@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_login import LoginManager
 from pymongo import MongoClient
+from flask_logger import FlaskLogger
 
 
 login_manager = LoginManager()
 mongo = MongoClient()
+flask_logger = FlaskLogger()
 
 
 def create_app(config):
@@ -16,9 +18,11 @@ def create_app(config):
     mongo = MongoClient(config['MONGODB_URL'])
 
     login_manager.init_app(app)
-
-
-    from .views import main
-    app.register_blueprint(main)
+    flask_logger.init_app(app)
 
     return app
+
+
+app = create_app({'MONGODB_URL': "mongodb://localhost"})
+
+from . import views
