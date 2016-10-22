@@ -6,22 +6,18 @@ from logging.handlers import QueueListener, QueueHandler
 
 class FlaskLogger(object):
 
+    def __init__(self):
+        self.que = queue.Queue(-1)
+        self.queue_handler = QueueHandler(self.que)
+        self.queue_handler.setLevel(logging.DEBUG)
 
-    que = queue.Queue(-1)
-    queue_handler = QueueHandler(que)
-    handler = logging.StreamHandler()
-    listener = QueueListener(que, handler)
-    root = logging.getLogger('aa')
-    root.addHandler(queue_handler)
-    fotmatter = logging.Formatter('%(threadName)s: %(message)s')
-    handler.setFormatter(fotmatter)
-    listener.start()
-    logging.warning('haha')
-    logging.error('heihie')
-    listener.stop()
+        file_handler = logging.FileHandler(
+            '/usr/local/var/log/flask_app.log')
+        self.listener = QueueListener(
+            self.que, file_handler,
+            respect_handler_level=logging.INFO)
 
-a1 = logging.getLogger('aa')
-a2 = logging.getLogger('aa')
+    def init_app(self, app):
 
-print(a1 is a2)
-print(a2.handlers)
+        app.logger.addHandler(self.queue_handler)
+        self.listener.start()
