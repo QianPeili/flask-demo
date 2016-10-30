@@ -5,6 +5,7 @@
     <title>上传视频</title>
 </head>
 <body>
+    {{ get_flashed_messages() }}
     <form method="post" action="{{ url_for('video_upload') }}" enctype="multipart/form-data">
         <input type="file" id="upload_video" name="video" accept="video/*">
         <label>视频名称<input type="text" name="video_name"></label>
