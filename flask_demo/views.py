@@ -1,5 +1,5 @@
 from flask_demo import app
-from flask import current_app
+from flask import current_app, request
 
 
 @app.route('/')
@@ -12,3 +12,7 @@ def index():
 def log_test():
     current_app.logger.info('my test log')
     return "Send a log."
+
+@app.route('/videos/upload')
+def vedio_upload():
+    pass
