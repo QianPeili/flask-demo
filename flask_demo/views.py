@@ -1,5 +1,5 @@
 from flask_demo import app, video_dao
-from flask import current_app, request, render_template, redirect, url_for, flash
+from flask import current_app, request, render_template, redirect, url_for, flash, send_file
 
 
 @app.route('/')
@@ -24,9 +24,16 @@ def video_upload():
         return redirect(url_for("video_upload"))
 
     file_obj = request.files['video']
-    name = request.form.get('video_name', file_obj.filename)
-    video_dao.save_video(request.files['video'], name)
+    title = request.form.get('video_title', None) or file_obj.filename
+    video_dao.save_video(request.files['video'], title)
     flash(u"上传成功")
     return redirect(url_for("video_upload"))
+
+
+@app.route('/videos/play/<string:video_id>')
+def video_play(video_id):
+
+    video = video_dao.load_video(video_id)
+    return send_file(video, as_attachment=True, attachment_filename=u'mov.mov')
 
 
