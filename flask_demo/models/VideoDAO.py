@@ -4,7 +4,7 @@ import gridfs
 class VideoDAO(object):
 
     def __init__(self, database):
-        self.db = database.vedios
+        self.db = database.videos
         self.videos = self.db.video_list
 
     def save_video(self, video_obj, video_name):
