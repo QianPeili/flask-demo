@@ -1,17 +1,6 @@
+# coding=utf-8
 from flask_demo import app, video_dao
-from flask import current_app, request, render_template, redirect, url_for, flash, send_file
-
-
-@app.route('/')
-@app.route('/index')
-def index():
-    return "Hi, this is index, Welcome!"
-
-
-@app.route('/log_test')
-def log_test():
-    current_app.logger.info('my test log')
-    return "Send a log."
+from flask import request, render_template, redirect, url_for, flash, send_file
 
 
 @app.route('/videos/upload', methods=['GET', 'POST'])
@@ -35,5 +24,3 @@ def video_play(video_id):
 
     video = video_dao.load_video(video_id)
     return send_file(video, as_attachment=True, attachment_filename=u'mov.mov')
-
-
