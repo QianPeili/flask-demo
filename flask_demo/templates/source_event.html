@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+            integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
+            crossorigin="anonymous">
+    </script>
+</head>
+<body>
+<div>
+<p id="count">0</p>
+</div>
+<script>
+    var source = new EventSource("/event_source");
+    source.onmessage = function(event) {
+        if (!event.data) {
+            source.close();
+            $('#count').text("done!")
+        } else{
+            console.log(event.data);
+            $('#count').text(event.data);
+        }
+
+    }
+</script>
+</body>
+</html>
